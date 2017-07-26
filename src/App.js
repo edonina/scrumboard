@@ -1,21 +1,60 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import uuid from 'uuid';
+import Notes from './components/Notes';
 
+
+
+
+//console.log(notes);
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      notes: [
+        {
+          id: uuid.v4(),
+          task: 'Learn React'
+        },
+        {
+          id: uuid.v4(),
+          task: 'Do laundry'
+        }
+      ]
+    };
+  }
+
+
+
+
+
   render() {
+    const {notes} = this.state;
     return (
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+
         </div>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          <Notes notes={notes} />
+          <button onClick={this.addNote}>+</button>
         </p>
       </div>
     );
   }
+
+  addNote = () => {
+    this.setState({
+      notes: this.state.notes.concat([{
+        id: uuid.v4(),
+        task: 'New task'
+      }])
+    });
+  }
+
 }
 
 export default App;
