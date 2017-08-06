@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import uuid from 'uuid';
+
 import Notes from './components/Notes';
 
 
+import uuid from 'uuid';
 
 
 //console.log(notes);
@@ -27,9 +28,6 @@ class App extends Component {
   }
 
 
-
-
-
   render() {
     const {notes} = this.state;
     return (
@@ -39,9 +37,15 @@ class App extends Component {
 
         </div>
         <p className="App-intro">
-          <Notes notes={notes} onDelete={this.deleteNote} />
+        <Notes
+          notes={notes}
+          onNoteClick={this.activateNoteEdit}
+          onEdit={this.editNote}
+          onDelete={this.deleteNote}
+        />
 
-          <button onClick={this.addNote}>+</button>
+  <button onClick={this.addNote}>+</button>
+
         </p>
       </div>
     );
@@ -64,6 +68,46 @@ class App extends Component {
       }])
     });
   }
+
+  deleteNote = (id, e) => {
+    // Avoid bubbling to edit
+    e.stopPropagation();
+
+    this.setState({
+      notes: this.state.notes.filter(note => note.id !== id)
+    });
+  }
+
+
+
+  activateNoteEdit = (id) => {
+    this.setState({
+      notes: this.state.notes.map(note => {
+        if(note.id === id) {
+          note.editing = true;
+        }
+
+        return note;
+      })
+    });
+  }
+
+
+  editNote = (id, task) => {
+    this.setState({
+      notes: this.state.notes.map(note => {
+        if(note.id === id) {
+          note.editing = false;
+          note.task = task;
+        }
+
+        return note;
+      })
+    });
+  }
+
+
+
 
 }
 
