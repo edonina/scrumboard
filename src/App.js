@@ -39,11 +39,21 @@ class App extends Component {
 
         </div>
         <p className="App-intro">
-          <Notes notes={notes} />
+          <Notes notes={notes} onDelete={this.deleteNote} />
+
           <button onClick={this.addNote}>+</button>
         </p>
       </div>
     );
+  }
+
+  deleteNote = (id, e) => {
+    // Avoid bubbling to edit
+    e.stopPropagation();
+
+    this.setState({
+      notes: this.state.notes.filter(note => note.id !== id)
+    });
   }
 
   addNote = () => {
