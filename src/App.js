@@ -44,7 +44,7 @@ class App extends Component {
           onDelete={this.deleteNote}
         />
 
-  <button onClick={this.addNote}>+</button>
+  <button  className="add-note" onClick={this.addNote}>+</button>
 
         </p>
       </div>
